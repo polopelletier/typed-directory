@@ -1,0 +1,1 @@
+[![NPM version](https://badge.fury.io/js/typed-directory.svg)](http://badge.fury.io/js/typed-directory)
