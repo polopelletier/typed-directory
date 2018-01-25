@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Generate a Typescript file that loads all files contained in a directory hierarchically with a specified type",
   "main": "index.js",
+  "bin": {
+    "typed-directory": "./bin/typed-directory.js"
+  },
   "scripts": {
     "coverage": "istanbul cover _mocha 'test/**/*.spec.js' -- -r 'test/bootstrap.js'",
     "test": "mocha 'test/**/*.spec.js' -r 'test/bootstrap.js'"
@@ -29,6 +32,8 @@
     "mocha": "^5.0.0"
   },
   "dependencies": {
-    "scan-dir-recursive": "^1.0.4"
+    "mkdirp": "^0.5.1",
+    "scan-dir-recursive": "^1.0.4",
+    "yargs": "^10.1.1"
   }
 }
