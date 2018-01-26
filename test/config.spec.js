@@ -15,8 +15,6 @@ const PATH_CWD_JSON = path.resolve(process.cwd(), config.DEFAULT_JSON);
 const CUSTOM_FILENAME = "myConfig.js";
 const PATH_CWD_CUSTOM = path.resolve(process.cwd(), CUSTOM_FILENAME);
 
-
-
 describe("config", function() {
 	describe("constants", function() {
 		it("Exists", function() {
@@ -53,13 +51,15 @@ describe("config", function() {
 		it("Can load absolute paths", function(){
 			const filename = path.resolve(process.cwd(), "test/config/", config.DEFAULT_JS);
 			const provided = config.load(filename);
-			assert.deepEqual(provided, EXPECTED);
+			assert.isString(provided.filename);
+			assert.deepEqual(provided.content, EXPECTED);
 		});
 
 		it("Can load relative path", function(){
 			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_CUSTOM);
 			const provided = config.load(CUSTOM_FILENAME);
-			assert.deepEqual(provided, EXPECTED);
+			assert.isString(provided.filename);
+			assert.deepEqual(provided.content, EXPECTED);
 		});
 
 		it("Fail if file doesn't exist", function(){
@@ -74,14 +74,16 @@ describe("config", function() {
 			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
 
 			const provided = config.load();
-			assert.deepEqual(provided, EXPECTED);
+			assert.isString(provided.filename);
+			assert.deepEqual(provided.content, EXPECTED);
 		});
 
 		it("Can default to json", function(){
 			fs.copyFileSync(PATH_CONFIG_JSON, PATH_CWD_JSON);
 
 			const provided = config.load();
-			assert.deepEqual(provided, EXPECTED);
+			assert.isString(provided.filename);
+			assert.deepEqual(provided.content, EXPECTED);
 		});
 
 		it("Fail if no default exist", function(){
@@ -103,5 +105,76 @@ describe("config", function() {
 				config.load(path.resolve(__dirname, "config/invalid.json"));
 			});
 		}, SyntaxError);
+	});
+
+	describe("#validate", function(){
+		it("Fail if is not an array", function(){
+			assert.throws(function(){
+				config.validate();
+			},
+			Error,
+			/Content must be an array/);
+		});
+
+		it("Fail if item is not an object", function(){
+			assert.throws(function(){
+				config.validate([
+					1
+				]);
+			},
+			Error,
+			/Item \d+ must be an object/);
+		});
+
+		it("Fail if item doesn't have a dir", function(){
+			assert.throws(function(){
+				config.validate([
+					{
+						dir: 0
+					}
+				]);
+			},
+			Error,
+			/Item \d+ must have an input directory/);
+		});
+
+		it("Fail if item doesn't have a type", function(){
+			assert.throws(function(){
+				config.validate([
+					{
+						dir: "dir/subDir",
+						type: 0
+					}
+				]);
+			},
+			Error,
+			/Item \d+ must have a type filename/);
+		});
+
+		it("Fail if item doesn't have an output", function(){
+			assert.throws(function(){
+				config.validate([
+					{
+						dir: "dir/subDir",
+						type: "type.ts",
+						output: 0
+					}
+				]);
+			},
+			Error,
+			/Item \d+ must /);
+		});
+
+		it("Success if input is correct", function(){
+			assert.throws(function(){
+				config.validate([
+					{
+						dir: "dir/subDir",
+						type: "type.ts",
+						output: 0
+					}
+				]);
+			});
+		});
 	});
 });

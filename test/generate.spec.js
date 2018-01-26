@@ -55,6 +55,6 @@ function getContentPath(dir){
 }
 
 function loadExpected(filename){
-	const fullname = path.resolve(__dirname, "content", filename + ".ts");
+	const fullname = path.resolve(__dirname, "content/expected", filename + ".ts");
 	return fs.readFileSync(fullname).toString();
 }

@@ -7,6 +7,7 @@ module.exports = [
 	{
 		"dir": "test/content/classes",
 		"type": "test/content/BaseClass",
-		"output": "test/content/classes.ts"
+		"output": "test/content/classes.ts",
+		"instance": false
 	},
 ]
