@@ -43,6 +43,30 @@ describe("generate", function(){
 
 		assertFileMatch(provided, expected);
 	});
+
+	it("Fail if directory doesn't exist", function(){
+		const DIR = getContentPath("doesntExist");
+		const TYPE = path.resolve(__dirname, "content/Animal.ts");
+		const outRelative = path.resolve(__dirname, "provided/provided.ts");
+
+		assert.throws(function(){
+			generate(DIR, TYPE, outRelative)
+		},
+		Error,
+		/Source directory doesn't exist '.*'/);
+	});
+
+	it("Fail if directory doesn't exist", function(){
+		const DIR = getContentPath("animals");
+		const TYPE = path.resolve(__dirname, "content/DoesntExist.ts");
+		const outRelative = path.resolve(__dirname, "provided/provided.ts");
+
+		assert.throws(function(){
+			generate(DIR, TYPE, outRelative)
+		},
+		Error,
+		/Type file doesn't exist '.*'/);
+	});
 });
 
 function assertFileMatch(provided, expected, message){

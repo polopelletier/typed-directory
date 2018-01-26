@@ -1,9 +1,18 @@
+const fs = require("fs");
 const path = require("path");
 
 const Generator = require("./Generator");
 const scan = require("scan-dir-recursive/sync");
 
 module.exports = function(sourceDir, typeFile, outputFile, instance = true){
+	if(!fs.existsSync(sourceDir)){
+		throw new Error(`Source directory doesn't exist './${sourceDir}'`);
+	}
+
+	if(!fs.existsSync(typeFile)){
+		throw new Error(`Type file doesn't exist './${typeFile}'`);
+	}
+
 	const outputDir = path.parse(outputFile).dir;
 
 	const generator = new Generator(sourceDir, outputDir);
