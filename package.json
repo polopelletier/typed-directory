@@ -7,8 +7,8 @@
     "typed-directory": "./bin/typed-directory.js"
   },
   "scripts": {
-    "coverage": "istanbul cover _mocha 'test/**/*.spec.js' -- -r 'test/bootstrap.js'",
-    "test": "mocha 'test/**/*.spec.js' -r 'test/bootstrap.js'"
+    "coverage": "NODE_ENV=test istanbul cover _mocha 'test/**/*.spec.js' -- -r 'test/bootstrap.js'",
+    "test": "NODE_ENV=test mocha 'test/**/*.spec.js' -r 'test/bootstrap.js'"
   },
   "repository": {
     "type": "git",
