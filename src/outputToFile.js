@@ -14,8 +14,12 @@ module.exports = function(filename, content){
 	// Output file
 	fs.writeFileSync(filename, content);
 
-	// Make file readonly
-	fs.chmodSync(filename, 0o444);
+	// Make file readonly if possible
+	try {
+		fs.chmodSync(filename, 0o444);		
+	}catch(e){
+		
+	}
 }
 
 function datetime(){
