@@ -32,7 +32,9 @@
     "mocha": "^5.0.0"
   },
   "dependencies": {
+    "chalk": "^2.3.0",
     "mkdirp": "^0.5.1",
+    "recursive-watch": "^1.1.2",
     "scan-dir-recursive": "^1.0.4",
     "yargs": "^10.1.1"
   }

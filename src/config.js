@@ -19,7 +19,7 @@ function wrapConfig(filename){
 	};
 }
 
-module.exports.load = function(filename) {
+function load(filename) {
 	if(filename){
 		if(path.isAbsolute(filename)){
 			return wrapConfig(filename);
@@ -46,8 +46,9 @@ module.exports.load = function(filename) {
 
 	throw new Error(`Default config file not found. Use '${DEFAULT_JS}' or '${DEFAULT_JSON}'`);
 }
+module.exports.load = load;
 
-module.exports.validate = function(config){
+function validate(config){
 	if(!Array.isArray(config)){
 		throw new Error("Content must be an array");
 	}
@@ -66,4 +67,56 @@ module.exports.validate = function(config){
 			throw new Error(`Item ${i} must have an output filename (missing key 'output')`);
 		}
 	});
+}
+module.exports.validate = validate;
+
+module.exports.loadFromArgs = function(){
+	const args = Array.prototype.slice.apply(arguments);
+
+	var config = null;
+
+	if(args.length == 0){
+		// Use default
+		config = load();
+	}else if(args.length == 3){
+		// Use source directory
+		config = {
+			filename: null,
+			content: [{
+				output: args[0],
+				type: 	args[1],
+				dir: 	args[2]
+			}]
+		}
+	}else if(args.length == 1){
+		if(typeof args[0] === "string"){
+			// Use specified config file
+			config = load(args[0]);
+		}else if(Array.isArray(args[0])){
+			// Use raw array
+			config = {
+				filename: null,
+				content: args[0]
+			};
+		}else if(typeof args[0] === "object"){
+			// Use full config
+			config = args[0];
+		}
+	}
+
+	if(config == null){
+		throw new Error("Can't load config, arguments provided don't match any pattern. Please see documentation.")
+	}
+
+	try {
+		validate(config.content);
+	}catch(e){
+		if(config.filename){
+			throw new Error(`Error in config file '${config.filename}': ${e.message}`);
+		}else{
+			throw e;			
+		}
+	}
+
+	return config.content;
 }

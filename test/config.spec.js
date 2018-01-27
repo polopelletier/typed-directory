@@ -16,6 +16,26 @@ const CUSTOM_FILENAME = "myConfig.js";
 const PATH_CWD_CUSTOM = path.resolve(process.cwd(), CUSTOM_FILENAME);
 
 describe("config", function() {
+	afterEach(function(){
+		try {
+			fs.unlinkSync(PATH_CWD_JS);
+		}catch(e){
+
+		}
+
+		try {
+			fs.unlinkSync(PATH_CWD_JSON);
+		}catch(e){
+
+		}
+
+		try {
+			fs.unlinkSync(PATH_CWD_CUSTOM);
+		}catch(e){
+
+		}
+	});
+
 	describe("constants", function() {
 		it("Exists", function() {
 			assert.isString(config.DEFAULT_JS);
@@ -24,26 +44,6 @@ describe("config", function() {
 	});
 
 	describe("#load", function(){
-		afterEach(function(){
-			try {
-				fs.unlinkSync(PATH_CWD_JS);
-			}catch(e){
-
-			}
-
-			try {
-				fs.unlinkSync(PATH_CWD_JSON);
-			}catch(e){
-
-			}
-
-			try {
-				fs.unlinkSync(PATH_CWD_CUSTOM);
-			}catch(e){
-
-			}
-		});
-
 		it("Is a function", function() {
 			assert.isFunction(config.load);
 		});
@@ -162,19 +162,89 @@ describe("config", function() {
 				]);
 			},
 			Error,
-			/Item \d+ must /);
+			/Item \d+ must have an output filename/);
 		});
 
 		it("Success if input is correct", function(){
-			assert.throws(function(){
+			assert.doesNotThrow(function(){
 				config.validate([
 					{
 						dir: "dir/subDir",
 						type: "type.ts",
-						output: 0
+						output: "file.ts"
 					}
 				]);
 			});
+		});
+	});
+
+	describe("#loadFromArgs", function(){
+		it("Can use default", function(){
+			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
+
+			const provided = config.loadFromArgs();
+			assert.deepEqual(provided, EXPECTED);
+		});
+
+		it("Can use source directory", function(){
+			const provided = config.loadFromArgs(
+				EXPECTED[0].output,
+				EXPECTED[0].type,
+				EXPECTED[0].dir);
+			assert.deepEqual(provided, [
+				EXPECTED[0]
+			]);
+		});
+
+		it("Can use specific config file", function(){
+			const provided = config.loadFromArgs(PATH_CONFIG_JS);
+			assert.deepEqual(provided, EXPECTED);
+		});
+
+		it("Can use raw array", function(){
+			const provided = config.loadFromArgs(EXPECTED);
+			assert.deepEqual(provided, EXPECTED);
+		});
+
+		it("Can use full config", function(){
+			const provided = config.loadFromArgs({
+				filename: null,
+				content: EXPECTED
+			});
+			assert.deepEqual(provided, EXPECTED);
+		});
+
+		it("Fail if arguments don't match any pattern", function(){
+			assert.throws(function(){
+				config.loadFromArgs("str", 0);
+			},
+			Error,
+			/arguments provided don't match any pattern/);
+
+			assert.throws(function(){
+				config.loadFromArgs(0);
+			},
+			Error,
+			/arguments provided don't match any pattern/);
+		});
+
+		it("Can handle invalid config", function(){
+			assert.throws(function() {
+				config.loadFromArgs({
+					filename: "config.json",
+					content: "Should be array"
+				});
+			},
+			Error,
+			/Error in config file '.*'/);
+
+			assert.throws(function() {
+				config.loadFromArgs({
+					filename: null,
+					content: "Should be array"
+				});
+			},
+			Error);
 		});
 	});
 });
