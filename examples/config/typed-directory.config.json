@@ -1,0 +1,13 @@
+[
+	{
+		"dir": "examples/animals/content",
+		"type": "examples/animals/Animal.ts",
+		"output": "examples/animals/output.ts"
+	},
+	{
+		"dir": "examples/classes/content",
+		"type": "examples/classes/BaseClass.ts",
+		"output": "examples/classes/output.ts",
+		"instance": false
+	}
+]
