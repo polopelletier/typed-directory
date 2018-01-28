@@ -1,4 +1,4 @@
-const run = require("./runner");
+const run = require("./runner"); 
 const watch = require("./watch")
 
 const parser = require("yargs")
@@ -8,8 +8,8 @@ const parser = require("yargs")
 		"typed-directory v" + require("../package.json").version,
 		"Usage with default config file: typed-directory [-w]",
 		"Usage with custom config file:  typed-directory -c <configFile> [-w]",
-		"Usage with specific files:      typed-directory -d <sourceDir> -t <typeFile> -o <outFile> [-w]",
-		"Usage with watch:               typed-directory -w [-c <configFile>][-d <sourceDir> -t <typeFile> -o <outFile>]"
+		"Usage with specific files:      typed-directory -d <sourceDir> -t <typeFile> -o <outFile> [-i][-w]",
+		"Usage with watch:               typed-directory -w [-c <configFile>][-d <sourceDir> -t <typeFile> -o <outFile> [-i]]"
 	].join("\n"))
 
 	// Config file
@@ -31,6 +31,11 @@ const parser = require("yargs")
 	.string("o")
 	.alias("o", "outFile")
 	.describe("o", "Path to the output file")
+
+	// Instance
+	.boolean("i")
+	.alias("i", "inherit")
+	.describe("i", "Files inherit type (use when your files export constructors extending the provided type instead of exporting instances of it).")
 
 	.boolean("w")
 	.alias("w", "watch")
@@ -62,10 +67,13 @@ if(process.argv.length == 2){
 
 	if(count == 3){
 		// Use source directory
+		
+		const instance = !argv.i;
+		
 		if(argv.w){
-			watch(argv.o, argv.t, argv.d);
+			watch(argv.o, argv.t, argv.d, instance);
 		}else{
-			run(argv.o, argv.t, argv.d);			
+			run(argv.o, argv.t, argv.d, instance);			
 		}
 	}else if(count > 0){
 		if(!isDefined(argv.d)) 

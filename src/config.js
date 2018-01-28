@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs"); 
 const path = require("path");
 
 const DEFAULT_JS = "typed-directory.config.js";
@@ -6,7 +6,6 @@ module.exports.DEFAULT_JS = DEFAULT_JS;
 
 const DEFAULT_JSON = "typed-directory.config.json";
 module.exports.DEFAULT_JSON = DEFAULT_JSON;
-
 
 function resolveFile(filename){
 	return path.resolve(process.cwd(), filename);
@@ -78,16 +77,22 @@ module.exports.loadFromArgs = function(){
 	if(args.length == 0){
 		// Use default
 		config = load();
-	}else if(args.length == 3){
+	}else if(args.length >= 3){
 		// Use source directory
+		const entry = {
+			output: args[0],
+			type: 	args[1],
+			dir: 	args[2]
+		};
+		
+		if(args.length > 3){
+			entry.instance = args[3];
+		}
+
 		config = {
 			filename: null,
-			content: [{
-				output: args[0],
-				type: 	args[1],
-				dir: 	args[2]
-			}]
-		}
+			content: [entry]
+		};
 	}else if(args.length == 1){
 		if(typeof args[0] === "string"){
 			// Use specified config file
