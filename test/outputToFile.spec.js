@@ -3,8 +3,7 @@ const path = require("path");
 
 const outputToFile = requireSrc("outputToFile");
 
-const DIR = path.resolve(process.cwd(), "test/tmp/");
-const FILENAME = path.resolve(DIR, "output.ts");
+const FILENAME = path.resolve(process.cwd(), "test/tmp.ts");
 const CONTENT = "_CONTENT_";
 
 describe("outputToFile", function(){
@@ -14,7 +13,6 @@ describe("outputToFile", function(){
 	afterEach(function(){
 		try {
 			fs.unlinkSync(FILENAME);
-			fs.unlinkSync(DIR);
 		}catch(e){
 			// Don't crash if file haven't been created
 		}

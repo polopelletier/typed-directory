@@ -1,13 +1,13 @@
 [
 	{
-		"dir": "test/content/animals",
-		"type": "test/content/Animal.ts",
-		"output": "test/content/animals.ts"
+		"dir": "examples/animals/content",
+		"type": "examples/animals/Animal.ts",
+		"output": "examples/animals/provided.ts"
 	},
 	{
-		"dir": "test/content/classes",
-		"type": "test/content/BaseClass.ts",
-		"output": "test/content/classes.ts",
+		"dir": "examples/classes/content",
+		"type": "examples/classes/BaseClass.ts",
+		"output": "examples/classes/provided.ts",
 		"instance": false
 	}
 ]

@@ -29,13 +29,7 @@ module.exports = function() {
 			]);
 		}
 
-		// NOTE: Since onChange is called as a result of 
-		// a filesystem event, it doesn't get added
-		// to the coverage report
-		// Test are making sure the inner compile() call is made 
-		// so it can safely be ignored
-		
-		/* istanbul ignore next */
+		// TODO: Find a way to add coverage for this callback		
 		function onChange(filename){
 			logChange(`Change in '${filename}'`);
 			logChange("Compiling...");

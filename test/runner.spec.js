@@ -3,8 +3,18 @@ const path = require("path");
 
 const run = requireSrc("runner");
 
-const ANIMAL_FILENAME = path.resolve(__dirname, "content/animals.ts");
-const CLASSES_FILENAME = path.resolve(__dirname, "content/classes.ts");
+const { 
+	compareFiles, 
+	getRootDir, 
+	getPaths, 
+	getOutputPath
+} = require("./utils");
+
+const ANIMAL_PATH = getRootDir("animals");
+const ANIMAL_FILENAME = getOutputPath(ANIMAL_PATH);
+
+const CLASSES_PATH = getRootDir("classes");
+const CLASSES_FILENAME = getOutputPath(CLASSES_PATH);
 
 const CONFIG_FILENAME = path.resolve(__dirname, "config/typed-directory.config.js");
 
@@ -28,11 +38,9 @@ describe("runner", function(){
 	});
 
 	it("Can run with unique entry (command line)", function(){
-		const dir = path.resolve(__dirname, "content/animals");
-		const type = path.resolve(__dirname, "content/Animal.ts");
-		const output = ANIMAL_FILENAME;
+		const { rootDir, content, type } = getPaths("animals", "Animal.ts");
 		
-		run(output, type, dir);
+		run(ANIMAL_FILENAME, type, content);
 
 		compareFiles("animals");
 	});
@@ -65,17 +73,3 @@ describe("runner", function(){
 		compareFiles("classes");
 	});
 });
-
-function compareFiles(filename){
-	const providedPath = path.resolve(__dirname, "content/", filename + ".ts");
-	assert.isTrue(fs.existsSync(providedPath), `Expected '${filename}.ts' to have been outputed`);
-
-	const expectedPath = path.resolve(__dirname, "content/expected", filename + ".ts");
-
-	const provided = fs.readFileSync(providedPath).toString();
-	const expected = fs.readFileSync(expectedPath).toString();
-
-	const providedTrimmed = provided.split("\n").slice(1).join("\n");
-
-	assert.deepEqual(providedTrimmed, expected);
-}

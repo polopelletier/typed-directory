@@ -1,84 +1,85 @@
 const fs = require("fs");
 const path = require("path");
 
+const { 
+	assertFileMatch, 
+	getRootDir, 
+	getPaths, 
+	getOutputPath,
+	loadExpected 
+} = require("./utils");
+
 const generate = requireSrc("generate");
 
-const OUT = path.resolve(__dirname, "content", "provided.ts");
-
 describe("generate", function(){
+	
+	var outputPath = null;
+	afterEach(function(){
+		if(outputPath){
+			try {
+				fs.unlinkSync(outputPath);
+			}catch(e){
+				
+			}
+			outputPath = null;
+		}
+	});
+
 	it("Is a function", function(){
 		assert.isFunction(generate);
 	});
 		
 	it("Can generate a file with instance", function(){
-		const DIR = getContentPath("animals");
-		const TYPE = path.resolve(__dirname, "content/Animal.ts");
+		const {rootDir, content, type} = getPaths("animals", "Animal.ts");
+		outputPath = getOutputPath(rootDir);
 
-		const provided = generate(DIR, TYPE, OUT);
-
-		const expected = loadExpected("animals");
+		const provided = generate(content, type, outputPath);
+		const expected = loadExpected(rootDir);
 
 		assertFileMatch(provided, expected);
 	});
 
 	it("Can generate a file with class", function(){
-		const DIR = getContentPath("classes");
-		const TYPE = path.resolve(__dirname, "content/BaseClass.ts");
+		const {rootDir, content, type} = getPaths("classes", "BaseClass.ts");
+		outputPath = getOutputPath(rootDir);
 
-		const provided = generate(DIR, TYPE, OUT, false)
-
-		const expected = loadExpected("classes");
+		const provided = generate(content, type, outputPath, false);
+		const expected = loadExpected(rootDir);
 
 		assertFileMatch(provided, expected);
 	});
 
 	it("Can generate a file with relative path", function(){
-		const DIR = getContentPath("animals");
-		const TYPE = path.resolve(__dirname, "content/Animal.ts");
-		const outRelative = path.resolve(__dirname, "provided/provided.ts");
+		const {content, type} = getPaths("animals", "Animal.ts");
 
-		const provided = generate(DIR, TYPE, outRelative);
+		const outDir = getRootDir("relative");
+		outputPath = getOutputPath(outDir);
 
-		const expected = loadExpected("relative");
+		const provided = generate(content, type, outputPath);
+		const expected = loadExpected(outDir);
 
 		assertFileMatch(provided, expected);
 	});
 
 	it("Fail if directory doesn't exist", function(){
-		const DIR = getContentPath("doesntExist");
-		const TYPE = path.resolve(__dirname, "content/Animal.ts");
-		const outRelative = path.resolve(__dirname, "provided/provided.ts");
+		const {rootDir, content, type} = getPaths("doesNotExist", "DoesNotExist.ts");
+		outputPath = getOutputPath(rootDir);
 
 		assert.throws(function(){
-			generate(DIR, TYPE, outRelative)
+			generate(content, type, outputPath);
 		},
 		Error,
 		/Source directory doesn't exist '.*'/);
 	});
 
 	it("Fail if directory doesn't exist", function(){
-		const DIR = getContentPath("animals");
-		const TYPE = path.resolve(__dirname, "content/DoesntExist.ts");
-		const outRelative = path.resolve(__dirname, "provided/provided.ts");
+		const {rootDir, content, type} = getPaths("classes", "DoesNotExist.ts");
+		outputPath = getOutputPath(rootDir);
 
 		assert.throws(function(){
-			generate(DIR, TYPE, outRelative)
+			generate(content, type, outputPath);
 		},
 		Error,
 		/Type file doesn't exist '.*'/);
 	});
 });
-
-function assertFileMatch(provided, expected, message){
-	assert.isString(provided, "Expected result to be a String");
-	assert.equal(provided, expected, message);
-}
-
-function getContentPath(dir){
-	return path.resolve(__dirname, "content", dir);
-}
-
-function loadExpected(filename){
-	const fullname = path.resolve(__dirname, "content/expected", filename + ".ts");
-	return fs.readFileSync(fullname).toString();
-}
