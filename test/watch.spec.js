@@ -46,6 +46,13 @@ describe("watch", function() {
 		assert.isFunction(watch);
 	});
 
+	it("Is exported as typed-directory/watch", function(){
+		const rootWatch = require("../watch");
+		assert.isFunction(rootWatch);
+		assert.equal(rootWatch, watch);
+	});
+
+
 	it("Can run with unique entry (command line)", function(done){
 		const { rootDir, content, type } = getPaths("animals", "Animal.ts");
 		

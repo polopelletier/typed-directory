@@ -18,7 +18,7 @@ const CLASSES_FILENAME = getOutputPath(CLASSES_PATH);
 
 const CONFIG_FILENAME = path.resolve(__dirname, "config/typed-directory.config.js");
 
-describe("runner", function(){
+describe("compiler", function(){
 	afterEach(function(){
 		try {
 			fs.unlinkSync(ANIMAL_FILENAME);
@@ -35,6 +35,12 @@ describe("runner", function(){
 
 	it("Is a function", function(){
 		assert.isFunction(compiler);
+	});
+
+	it("Is exported as package main", function(){
+		const rootCompiler = require("../index.js");
+		assert.isFunction(rootCompiler);
+		assert.equal(rootCompiler, compiler);
 	});
 
 	it("Can run with unique entry (command line)", function(){
