@@ -34,6 +34,7 @@ const parser = require("yargs")
 
 	// Instance
 	.boolean("i")
+	.default("i", false)
 	.alias("i", "instance")
 	.describe("i", "Files export instances of the specified type")
 
