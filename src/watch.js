@@ -1,14 +1,14 @@
 const chalk = require("chalk").bold;
 
 const recursiveWatch = require("recursive-watch");
-const _config = require("./config");
+const configFromArgs = require("./config").loadFromArgs;
 
 const compiler = require("./compiler");
 
 const IS_TEST = (process.env.NODE_ENV == "test");
 
 module.exports = function() {
-	const config = _config.loadFromArgs.apply(null, arguments);
+	const config = configFromArgs.apply(null, arguments);
 
 	const watchers = [];
 

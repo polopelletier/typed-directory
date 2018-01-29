@@ -2,12 +2,12 @@
 	{
 		"dir": "examples/animals/content",
 		"type": "examples/animals/Animal.ts",
-		"output": "examples/animals/output.ts"
+		"output": "examples/animals/output.ts",
+		"instance": true
 	},
 	{
 		"dir": "examples/classes/content",
 		"type": "examples/classes/BaseClass.ts",
-		"output": "examples/classes/output.ts",
-		"instance": false
+		"output": "examples/classes/output.ts"
 	}
 ]

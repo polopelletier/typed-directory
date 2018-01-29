@@ -34,8 +34,8 @@ const parser = require("yargs")
 
 	// Instance
 	.boolean("i")
-	.alias("i", "inherit")
-	.describe("i", "Files inherit type (use when your files export constructors extending the provided type instead of exporting instances of it).")
+	.alias("i", "instance")
+	.describe("i", "Files export instances of the specified type")
 
 	.boolean("w")
 	.alias("w", "watch")

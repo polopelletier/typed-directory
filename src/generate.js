@@ -4,7 +4,7 @@ const path = require("path");
 const Generator = require("./Generator");
 const scan = require("scan-dir-recursive/sync");
 
-module.exports = function(sourceDir, typeFile, outputFile, instance = true){
+module.exports = function(sourceDir, typeFile, outputFile, instance = false){
 	if(!fs.existsSync(sourceDir)){
 		throw new Error(`Source directory doesn't exist './${sourceDir}'`);
 	}

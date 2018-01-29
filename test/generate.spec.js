@@ -33,7 +33,7 @@ describe("generate", function(){
 		const {rootDir, content, type} = getPaths("animals", "Animal.ts");
 		outputPath = getOutputPath(rootDir);
 
-		const provided = generate(content, type, outputPath);
+		const provided = generate(content, type, outputPath, true);
 		const expected = loadExpected(rootDir);
 
 		assertFileMatch(provided, expected);
@@ -43,7 +43,7 @@ describe("generate", function(){
 		const {rootDir, content, type} = getPaths("classes", "BaseClass.ts");
 		outputPath = getOutputPath(rootDir);
 
-		const provided = generate(content, type, outputPath, false);
+		const provided = generate(content, type, outputPath);
 		const expected = loadExpected(rootDir);
 
 		assertFileMatch(provided, expected);
@@ -55,7 +55,7 @@ describe("generate", function(){
 		const outDir = getRootDir("relative");
 		outputPath = getOutputPath(outDir);
 
-		const provided = generate(content, type, outputPath);
+		const provided = generate(content, type, outputPath, true);
 		const expected = loadExpected(outDir);
 
 		assertFileMatch(provided, expected);

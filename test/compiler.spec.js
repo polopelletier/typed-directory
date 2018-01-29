@@ -46,7 +46,7 @@ describe("compiler", function(){
 	it("Can run with unique entry (command line)", function(){
 		const { rootDir, content, type } = getPaths("animals", "Animal.ts");
 		
-		compiler(ANIMAL_FILENAME, type, content);
+		compiler(ANIMAL_FILENAME, type, content, true);
 
 		compareFiles("animals");
 	});

@@ -56,7 +56,7 @@ describe("watch", function() {
 	it("Can run with unique entry (command line)", function(done){
 		const { rootDir, content, type } = getPaths("animals", "Animal.ts");
 		
-		watcher = watch(ANIMAL_FILENAME, type, content);
+		watcher = watch(ANIMAL_FILENAME, type, content, true);
 
 		compareFiles("animals");
 

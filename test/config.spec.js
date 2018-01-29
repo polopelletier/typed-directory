@@ -186,23 +186,23 @@ describe("config", function() {
 			assert.deepEqual(provided, EXPECTED);
 		});
 
-		it("Can use source directory", function(){
+		it("Can use source directory (with instance)", function(){
 			const provided = config.loadFromArgs(
 				EXPECTED[0].output,
 				EXPECTED[0].type,
-				EXPECTED[0].dir);
+				EXPECTED[0].dir,
+				EXPECTED[0].instance);
 
 			assert.deepEqual(provided, [
 				EXPECTED[0]
 			]);
 		});
 
-		it("Can use source directory (with instance)", function(){
+		it("Can use source directory", function(){
 			const provided = config.loadFromArgs(
 				EXPECTED[1].output,
 				EXPECTED[1].type,
-				EXPECTED[1].dir,
-				EXPECTED[1].instance);
+				EXPECTED[1].dir);
 
 			assert.deepEqual(provided, [
 				EXPECTED[1]
