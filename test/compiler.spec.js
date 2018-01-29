@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const run = requireSrc("runner");
+const compiler = requireSrc("compiler");
 
 const { 
 	compareFiles, 
@@ -34,19 +34,19 @@ describe("runner", function(){
 	})
 
 	it("Is a function", function(){
-		assert.isFunction(run);
+		assert.isFunction(compiler);
 	});
 
 	it("Can run with unique entry (command line)", function(){
 		const { rootDir, content, type } = getPaths("animals", "Animal.ts");
 		
-		run(ANIMAL_FILENAME, type, content);
+		compiler(ANIMAL_FILENAME, type, content);
 
 		compareFiles("animals");
 	});
 
 	it("Can run with a config filename", function(){
-		run(CONFIG_FILENAME);
+		compiler(CONFIG_FILENAME);
 
 		compareFiles("animals");
 		compareFiles("classes");
@@ -55,7 +55,7 @@ describe("runner", function(){
 	it("Can run with a config object", function(){
 		const config = require(CONFIG_FILENAME);
 
-		run({
+		compiler({
 			filename: null,
 			content: config
 		});
@@ -67,7 +67,7 @@ describe("runner", function(){
 	it("Can run with a config object (content only)", function(){
 		const config = require(CONFIG_FILENAME);
 
-		run(config);
+		compiler(config);
 
 		compareFiles("animals");
 		compareFiles("classes");

@@ -1,6 +1,6 @@
 const path = require("path");
 
-const compiler = require("../../src/runner");
+const compiler = require("../../src/compiler");
 
 const dir 		= path.resolve(__dirname, "content");
 const type 		= path.resolve(__dirname, "Animal.ts");

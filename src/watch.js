@@ -3,7 +3,7 @@ const chalk = require("chalk").bold;
 const recursiveWatch = require("recursive-watch");
 const _config = require("./config");
 
-const run = require("./runner");
+const compiler = require("./compiler");
 
 const IS_TEST = (process.env.NODE_ENV == "test");
 
@@ -24,7 +24,7 @@ module.exports = function() {
 
 	config.forEach(function(entry){
 		function compile(){
-			run([
+			compiler([
 				entry
 			]);
 		}
