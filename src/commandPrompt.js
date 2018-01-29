@@ -1,4 +1,4 @@
-const run = require("./runner"); 
+const compiler = require("./compiler"); 
 const watch = require("./watch")
 
 const parser = require("yargs")
@@ -49,7 +49,7 @@ const argv = parser.argv;
 var config;
 if(process.argv.length == 2){
 	// Use default config
-	run();
+	compiler();
 }else if(isDefined(argv.c)){
 	// Use custom config
 	const loadConfig = require("./config").load;
@@ -57,7 +57,7 @@ if(process.argv.length == 2){
 	if(argv.w){
 		watch(config);
 	}else{
-		run(config);
+		compiler(config);
 	}
 }else{
 	var count = 0;
@@ -73,7 +73,7 @@ if(process.argv.length == 2){
 		if(argv.w){
 			watch(argv.o, argv.t, argv.d, instance);
 		}else{
-			run(argv.o, argv.t, argv.d, instance);			
+			compiler(argv.o, argv.t, argv.d, instance);			
 		}
 	}else if(count > 0){
 		if(!isDefined(argv.d)) 
