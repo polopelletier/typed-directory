@@ -1,13 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
-const { 
-	assertFileMatch, 
-	getRootDir, 
-	getPaths, 
-	getOutputPath,
-	loadExpected 
-} = require("./utils");
+const utils = require("./utils");
+const assertFileMatch = utils.assertFileMatch;
+const getRootDir = utils.getRootDir;
+const getPaths = utils.getPaths;
+const getOutputPath = utils.getOutputPath;
+const loadExpected = utils.loadExpected;
 
 const generate = requireSrc("generate");
 

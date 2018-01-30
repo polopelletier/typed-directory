@@ -3,12 +3,11 @@ const path = require("path");
 
 const compiler = requireSrc("compiler");
 
-const { 
-	compareFiles, 
-	getRootDir, 
-	getPaths, 
-	getOutputPath
-} = require("./utils");
+const utils = require("./utils");
+const compareFiles = utils.compareFiles;
+const getRootDir = utils.getRootDir;
+const getPaths = utils.getPaths;
+const getOutputPath = utils.getOutputPath;
 
 const ANIMAL_PATH = getRootDir("animals");
 const ANIMAL_FILENAME = getOutputPath(ANIMAL_PATH);
