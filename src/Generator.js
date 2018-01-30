@@ -11,7 +11,9 @@ function Generator(sourceDir, outputDir){
 	this.entries = [];
 }
 
-Generator.prototype.setType = function(typeFile, instance = true){
+Generator.prototype.setType = function(typeFile, instance/* = false*/){
+	if(instance == undefined) instance = false;
+
 	const parsed = path.parse(typeFile);
 	this.typeName = parsed.name;
 	this.type = instance ? this.typeName : `{new(): ${this.typeName}}`;
