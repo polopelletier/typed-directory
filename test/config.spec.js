@@ -3,7 +3,6 @@ const path = require("path");
 
 const config = requireSrc("config");
 
-
 const EXPECTED = require("./config/typed-directory.config.js");
 
 const PATH_CONFIG_JS = path.resolve(__dirname, "config", config.DEFAULT_JS);
@@ -56,7 +55,7 @@ describe("config", function() {
 		});
 
 		it("Can load relative path", function(){
-			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_CUSTOM);
+			copyFileSync(PATH_CONFIG_JS, PATH_CWD_CUSTOM);
 			const provided = config.load(CUSTOM_FILENAME);
 			assert.isString(provided.filename);
 			assert.deepEqual(provided.content, EXPECTED);
@@ -71,7 +70,7 @@ describe("config", function() {
 		});
 
 		it("Can default to js", function(){
-			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
+			copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
 
 			const provided = config.load();
 			assert.isString(provided.filename);
@@ -79,7 +78,7 @@ describe("config", function() {
 		});
 
 		it("Can default to json", function(){
-			fs.copyFileSync(PATH_CONFIG_JSON, PATH_CWD_JSON);
+			copyFileSync(PATH_CONFIG_JSON, PATH_CWD_JSON);
 
 			const provided = config.load();
 			assert.isString(provided.filename);
@@ -180,7 +179,7 @@ describe("config", function() {
 
 	describe("#loadFromArgs", function(){
 		it("Can use default", function(){
-			fs.copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
+			copyFileSync(PATH_CONFIG_JS, PATH_CWD_JS);
 
 			const provided = config.loadFromArgs();
 			assert.deepEqual(provided, EXPECTED);
@@ -261,3 +260,8 @@ describe("config", function() {
 		});
 	});
 });
+
+function copyFileSync(src, dest){
+	const content = fs.readFileSync(src).toString();
+	fs.writeFileSync(dest, content);
+}
