@@ -29,7 +29,10 @@ describe("generate", function(){
 	});
 		
 	it("Can generate a file with instance", function(){
-		const {rootDir, content, type} = getPaths("animals", "Animal.ts");
+		const paths = getPaths("animals", "Animal.ts");
+		const rootDir = paths.rootDir;
+		const content = paths.content;
+		const type = paths.type;
 		outputPath = getOutputPath(rootDir);
 
 		const provided = generate(content, type, outputPath, true);
@@ -39,7 +42,10 @@ describe("generate", function(){
 	});
 
 	it("Can generate a file with class", function(){
-		const {rootDir, content, type} = getPaths("classes", "BaseClass.ts");
+		const paths = getPaths("classes", "BaseClass.ts");
+		const rootDir = paths.rootDir;
+		const content = paths.content;
+		const type = paths.type;
 		outputPath = getOutputPath(rootDir);
 
 		const provided = generate(content, type, outputPath);
@@ -49,7 +55,9 @@ describe("generate", function(){
 	});
 
 	it("Can generate a file with relative path", function(){
-		const {content, type} = getPaths("animals", "Animal.ts");
+		const paths = getPaths("animals", "Animal.ts");
+		const content = paths.content;
+		const type = paths.type;
 
 		const outDir = getRootDir("relative");
 		outputPath = getOutputPath(outDir);
@@ -61,7 +69,10 @@ describe("generate", function(){
 	});
 
 	it("Fail if directory doesn't exist", function(){
-		const {rootDir, content, type} = getPaths("doesNotExist", "DoesNotExist.ts");
+		const paths = getPaths("doesNotExist", "DoesNotExist.ts");
+		const rootDir = paths.rootDir;
+		const content = paths.content;
+		const type = paths.type;
 		outputPath = getOutputPath(rootDir);
 
 		assert.throws(function(){
@@ -72,7 +83,10 @@ describe("generate", function(){
 	});
 
 	it("Fail if directory doesn't exist", function(){
-		const {rootDir, content, type} = getPaths("classes", "DoesNotExist.ts");
+		const paths = getPaths("classes", "DoesNotExist.ts");
+		const rootDir = paths.rootDir;
+		const content = paths.content;
+		const type = paths.type;
 		outputPath = getOutputPath(rootDir);
 
 		assert.throws(function(){
