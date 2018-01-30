@@ -1,6 +1,6 @@
 # Typed directory
 
-[![NPM version](https://badge.fury.io/js/typed-directory.svg)](http://badge.fury.io/js/typed-directory)
+[![NPM version](https://badge.fury.io/js/typed-directory.svg)](http://badge.fury.io/js/typed-directory) [![Build Status](https://travis-ci.org/polopelletier/typed-directory.svg?branch=master)](https://travis-ci.org/polopelletier/typed-directory)
 
 `typed-directory` is a utility that will generate a strongly typed hierarchy of a specific folder. It is useful for typescript projects that need dynamic imports but don't want to give-up type annotation.
 
