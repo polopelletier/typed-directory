@@ -13,7 +13,8 @@ const generate = requireSrc("generate");
 describe("generate", function(){
 	
 	var outputPath = null;
-	afterEach(function(){
+
+	function reset(){
 		if(outputPath){
 			try {
 				fs.unlinkSync(outputPath);
@@ -22,7 +23,10 @@ describe("generate", function(){
 			}
 			outputPath = null;
 		}
-	});
+	}
+
+	beforeEach(reset);
+	afterEach(reset);
 
 	it("Is a function", function(){
 		assert.isFunction(generate);

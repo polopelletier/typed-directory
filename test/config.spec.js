@@ -15,25 +15,29 @@ const CUSTOM_FILENAME = "myConfig.js";
 const PATH_CWD_CUSTOM = path.resolve(process.cwd(), CUSTOM_FILENAME);
 
 describe("config", function() {
-	afterEach(function(){
+
+	function reset(){
 		try {
 			fs.unlinkSync(PATH_CWD_JS);
 		}catch(e){
-
+			
 		}
 
 		try {
 			fs.unlinkSync(PATH_CWD_JSON);
 		}catch(e){
-
+			
 		}
 
 		try {
 			fs.unlinkSync(PATH_CWD_CUSTOM);
 		}catch(e){
-
+			
 		}
-	});
+	}
+
+	beforeEach(reset);
+	afterEach(reset);
 
 	describe("constants", function() {
 		it("Exists", function() {

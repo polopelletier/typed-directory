@@ -41,6 +41,7 @@ module.exports.loadProvided = loadProvided;
 function trimHeader(content){
 	return content.split("\n").slice(1).join("\n");
 }
+module.exports.trimHeader = trimHeader;
 
 function assertFileMatch(provided, expected, message){
 	assert.isString(provided, "Expected result to be a String");

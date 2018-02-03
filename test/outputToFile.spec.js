@@ -10,13 +10,16 @@ describe("outputToFile", function(){
 
 	var skip = false;
 
-	afterEach(function(){
+	function reset(){
 		try {
 			fs.unlinkSync(FILENAME);
 		}catch(e){
 			// Don't crash if file haven't been created
 		}
-	});
+	}
+
+	beforeEach(reset);
+	afterEach(reset);
 
 	it("Is a function", function(){
 		assert.isFunction(outputToFile);

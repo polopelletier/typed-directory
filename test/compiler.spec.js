@@ -18,19 +18,22 @@ const CLASSES_FILENAME = getOutputPath(CLASSES_PATH);
 const CONFIG_FILENAME = path.resolve(__dirname, "config/typed-directory.config.js");
 
 describe("compiler", function(){
-	afterEach(function(){
+	function reset(){
 		try {
 			fs.unlinkSync(ANIMAL_FILENAME);
 		}catch(e){
-
+			
 		}
 
 		try {
 			fs.unlinkSync(CLASSES_FILENAME);
 		}catch(e){
-
+			
 		}
-	})
+	}
+
+	beforeEach(reset);
+	afterEach(reset);
 
 	it("Is a function", function(){
 		assert.isFunction(compiler);

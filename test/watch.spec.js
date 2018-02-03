@@ -16,12 +16,16 @@ const ANIMAL_FILENAME = getOutputPath(ANIMAL_PATH);
 const CLASSES_PATH = getRootDir("classes");
 const CLASSES_FILENAME = getOutputPath(CLASSES_PATH);
 
+const NEW_FILENAME = path.resolve(ANIMAL_PATH, "content/zoo/elephant.ts");
+
 const CONFIG_FILENAME = path.resolve(__dirname, "config/typed-directory.config.js");
 
 describe("watch", function() {
 	var watcher = null;
 
-	afterEach(function(){
+	this.timeout(10 * 1000);
+
+	function reset(){
 		if(watcher){
 			// Unwatch
 			watcher();
@@ -39,6 +43,22 @@ describe("watch", function() {
 		}catch(e){
 
 		}
+
+		try {
+			fs.unlinkSync(NEW_FILENAME);
+		}catch(e){
+
+		}
+	}
+
+	beforeEach(reset);
+	afterEach(function(){
+		if(watcher){
+			watcher();
+			watcher = null;
+		}
+
+		reset();
 	});
 
 	it("Is a function", function(){
@@ -61,7 +81,7 @@ describe("watch", function() {
 
 		compareFiles("animals");
 
-		checkWatch("animals", done);
+		checkWatch(done);
 	});
 
 	it("Can run with a config filename", function(done){
@@ -70,7 +90,7 @@ describe("watch", function() {
 		compareFiles("animals");
 		compareFiles("classes");
 
-		checkWatch("animals", done);
+		checkWatch(done);
 	});
 
 	it("Can run with a config object", function(done){
@@ -84,7 +104,7 @@ describe("watch", function() {
 		compareFiles("animals");
 		compareFiles("classes");
 
-		checkWatch("animals", done);
+		checkWatch(done);
 	});
 
 	it("Can run with a config object (content only)", function(done){
@@ -95,11 +115,62 @@ describe("watch", function() {
 		compareFiles("animals");
 		compareFiles("classes");
 
-		checkWatch("animals", done);
+		checkWatch(done);
 	});
 });
 
-function checkWatch(dir, done){
-	// TODO: Check if watcher is working properly
-	setTimeout(done, 10);
+const WATCH_DELAY = 500;
+
+const NEW_FILE_CONTENT = 	'import Animal from "../../Animal";' + '\n' +
+							'' + '\n' +
+							'export default new Animal("Elephant", "Pawoo!");';
+
+function checkWatch(done){
+	var complete = false;
+
+	function onComplete(message){
+		if(!complete){
+			complete = true;
+			fs.unwatchFile(ANIMAL_FILENAME);
+			done(message);
+		}
+	}
+
+	fs.watchFile(ANIMAL_FILENAME, 
+		{
+			interval: WATCH_DELAY
+		},
+		function(){
+			if(!complete){
+				var expectedLines = utils.loadExpected(ANIMAL_PATH).split("\n");
+
+				// Trim header
+				expectedLines = expectedLines.slice(1);
+
+				// Adding the 3 new lines
+				expectedLines.splice(4, 0, `import _zoo_elephant from "./content/zoo/elephant";`);
+				expectedLines.splice(9, 0, `const zoo_elephant:Animal = _zoo_elephant;`);
+				expectedLines.splice(18, 0, `\t\t"elephant": zoo_elephant,`);
+
+				const expected = expectedLines.join("\n");
+
+				const provided = utils.trimHeader(utils.loadProvided(ANIMAL_PATH));
+
+				assert.equal(provided, expected);
+
+				onComplete();
+			}
+		});
+
+	// Wait a bit before making change (otherwise watch does not trigger)
+	setTimeout(function(){
+		fs.writeFileSync(NEW_FILENAME, NEW_FILE_CONTENT);
+
+		// Give watch time to trigger before failing with timeout
+		setTimeout(function(){
+			onComplete("Timed out: watch callback has not been called in the expected delay");
+		}, WATCH_DELAY * 2);
+
+	}, WATCH_DELAY);
+
 }
