@@ -154,7 +154,7 @@ Just remember that you __DON'T__ need the `--watch` flag since `nodemon` already
 
 
 ### Webpack
-(In development)
+To integrate with `webpack`, check [`typed-directory-webpack-plugin`](https://github.com/polopelletier/typed-directory-webpack-plugin)
 
 ## Is instance
 
