@@ -1,5 +1,5 @@
 const compiler = require("./compiler"); 
-const watch = require("./watch")
+const watch = require("./watch");
 
 const parser = require("yargs")
 

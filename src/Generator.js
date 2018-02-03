@@ -20,13 +20,13 @@ Generator.prototype.setType = function(typeFile, instance/* = false*/){
 	
 	const typeDir = path.relative(this.outputDir, parsed.dir);
 	this.typePath = utils.getImportPath(typeDir, this.typeName);
-}
+};
 
 Generator.prototype.addFile = function(filename){
 	const entry = new Entry(filename, this.type, this.sourceDir, this.outputDir);
 	this.entries.push(entry);
 	this.addToTree(entry);
-}
+};
 
 Generator.prototype.addToTree = function(entry){
 	var currentNode = this.tree;
@@ -42,23 +42,23 @@ Generator.prototype.addToTree = function(entry){
 	}
 
 	currentNode[entry.name] = `$${entry.varName}`;
-}
+};
 
 Generator.prototype.getTypeImportLine = function(){
 	return `import ${this.typeName} from "${this.typePath}";`;
-}
+};
 
 Generator.prototype.getFileImportLines = function(){
 	return this.entries.map(function(entry){
 		return entry.getImportLine();
 	}).join("\n");
-}
+};
 
 Generator.prototype.getFileConstLines = function(){
 	return this.entries.map(function(entry){
 		return entry.getConstLine();
 	}).join("\n");
-}
+};
 
 Generator.prototype.getTree = function(){
 	var json = JSON.stringify(this.tree, null, "\t");
@@ -66,6 +66,6 @@ Generator.prototype.getTree = function(){
 		json = json.replace(`"$${entry.varName}"`, entry.varName);
 	});
 	return json;
-}
+};
 
 module.exports = Generator;

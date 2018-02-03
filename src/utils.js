@@ -9,4 +9,4 @@ function fixRelative(filename) {
 
 module.exports.getImportPath = function(dir, name){
 	return fixRelative(path.join(dir, name));
-}
+};

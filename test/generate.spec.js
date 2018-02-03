@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 
 const utils = require("./utils");
 const assertFileMatch = utils.assertFileMatch;
@@ -19,7 +18,7 @@ describe("generate", function(){
 			try {
 				fs.unlinkSync(outputPath);
 			}catch(e){
-				
+				// Might not exist
 			}
 			outputPath = null;
 		}

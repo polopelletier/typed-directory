@@ -8,13 +8,11 @@ const CONTENT = "_CONTENT_";
 
 describe("outputToFile", function(){
 
-	var skip = false;
-
 	function reset(){
 		try {
 			fs.unlinkSync(FILENAME);
 		}catch(e){
-			// Don't crash if file haven't been created
+			// Might not exist
 		}
 	}
 

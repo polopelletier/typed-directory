@@ -1,5 +1,4 @@
 const fs = require("fs");
-const mkdirp = require("mkdirp");
 const path = require("path");
 
 const watch = requireSrc("watch");
@@ -35,19 +34,19 @@ describe("watch", function() {
 		try {
 			fs.unlinkSync(ANIMAL_FILENAME);
 		}catch(e){
-
+			// Might not exist
 		}
 
 		try {
 			fs.unlinkSync(CLASSES_FILENAME);
 		}catch(e){
-
+			// Might not exist
 		}
 
 		try {
 			fs.unlinkSync(NEW_FILENAME);
 		}catch(e){
-
+			// Might not exist
 		}
 	}
 
@@ -121,9 +120,11 @@ describe("watch", function() {
 
 const WATCH_DELAY = 500;
 
+/*eslint-disable */
 const NEW_FILE_CONTENT = 	'import Animal from "../../Animal";' + '\n' +
 							'' + '\n' +
 							'export default new Animal("Elephant", "Pawoo!");';
+/*eslint-enable */
 
 function checkWatch(done){
 	var complete = false;
@@ -148,9 +149,12 @@ function checkWatch(done){
 				expectedLines = expectedLines.slice(1);
 
 				// Adding the 3 new lines
-				expectedLines.splice(4, 0, `import _zoo_elephant from "./content/zoo/elephant";`);
-				expectedLines.splice(9, 0, `const zoo_elephant:Animal = _zoo_elephant;`);
-				expectedLines.splice(18, 0, `\t\t"elephant": zoo_elephant,`);
+				
+				/*eslint-disable */
+				expectedLines.splice(4, 0, 'import _zoo_elephant from "./content/zoo/elephant";');
+				expectedLines.splice(9, 0, 'const zoo_elephant:Animal = _zoo_elephant;');
+				expectedLines.splice(18, 0, '\t\t"elephant": zoo_elephant,');
+				/*eslint-enable */
 
 				const expected = expectedLines.join("\n");
 

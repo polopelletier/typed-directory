@@ -22,13 +22,13 @@ describe("compiler", function(){
 		try {
 			fs.unlinkSync(ANIMAL_FILENAME);
 		}catch(e){
-			
+			// Might not exist
 		}
 
 		try {
 			fs.unlinkSync(CLASSES_FILENAME);
 		}catch(e){
-			
+			// Might not exist
 		}
 	}
 

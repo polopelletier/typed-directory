@@ -47,7 +47,7 @@ module.exports = function() {
 	});
 
 	return unwatchAll;
-}
+};
 
 /* istanbul ignore next */
 function logSource(msg){

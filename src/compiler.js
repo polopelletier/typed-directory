@@ -6,7 +6,7 @@ const outputToFile = require("./outputToFile");
 module.exports = function() {
 	const config = configFromArgs.apply(null, arguments);
 	run(config);
-}
+};
 
 function run(config){
 	config.forEach(function(entry){

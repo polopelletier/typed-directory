@@ -20,19 +20,19 @@ describe("config", function() {
 		try {
 			fs.unlinkSync(PATH_CWD_JS);
 		}catch(e){
-			
+			// Might not exist
 		}
 
 		try {
 			fs.unlinkSync(PATH_CWD_JSON);
 		}catch(e){
-			
+			// Might not exist
 		}
 
 		try {
 			fs.unlinkSync(PATH_CWD_CUSTOM);
 		}catch(e){
-			
+			// Might not exist
 		}
 	}
 

@@ -21,10 +21,10 @@ function Entry(filename, type, sourceDir, outputDir){
 
 Entry.prototype.getImportLine = function(){
 	return `import _${this.varName} from "${this.importPath}";`;
-}
+};
 
 Entry.prototype.getConstLine = function(){
 	return `const ${this.varName}:${this.type} = _${this.varName};`;
-}
+};
 
 module.exports = Entry;

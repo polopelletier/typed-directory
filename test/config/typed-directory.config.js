@@ -10,4 +10,4 @@ module.exports = [
 		"type": "examples/classes/BaseClass.ts",
 		"output": "examples/classes/provided.ts"
 	}
-]
+];

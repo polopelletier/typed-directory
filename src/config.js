@@ -110,7 +110,7 @@ module.exports.loadFromArgs = function(){
 	}
 
 	if(config == null){
-		throw new Error("Can't load config, arguments provided don't match any pattern. Please see documentation.")
+		throw new Error("Can't load config, arguments provided don't match any pattern. Please see documentation.");
 	}
 
 	try {
@@ -124,4 +124,4 @@ module.exports.loadFromArgs = function(){
 	}
 
 	return config.content;
-}
+};
