@@ -63,6 +63,9 @@ typed-directory -c examples/config/typed-directory.config.json
 # Use specified path
 typed-directory -d examples/classes/content -t examples/classes/BaseClass.ts -o examples/classes/output.ts
 
+# Use specified path (export as instance with -i)
+typed-directory -i -d examples/animals/content -t examples/animals/Animal.ts -o examples/animals/output.ts
+
 # Print the full documentation for the command-line tool
 typed-directory --help
 ```
