@@ -19,7 +19,7 @@ npm install --save-dev typed-directory
 Basic usage takes an input directory and a typescript file and output a hierarchy of the file.
 
 ```bash
-typed-directory -d examples/classes/content -t examples/classes/BaseClass.ts -o examples/classes/output.ts
+typed-directory -d examples/classes -t examples/classes/BaseClass.ts -o examples/classes/output.ts
 ```
 
 ## Configuration file
@@ -38,7 +38,7 @@ Each object represents a directory that needs to be compiled and must have the f
 // typed-directory.config.js
 module.exports = [
 	{
-		dir: "examples/classes/content",
+		dir: "examples/classes",
 		type: "examples/classes/BaseClass.ts",
 		output: "examples/classes/output.ts"
 	}
@@ -61,10 +61,10 @@ typed-directory
 typed-directory -c examples/config/typed-directory.config.json
 
 # Use specified path
-typed-directory -d examples/classes/content -t examples/classes/BaseClass.ts -o examples/classes/output.ts
+typed-directory -d examples/classes -t examples/classes/BaseClass.ts -o examples/classes/output.ts
 
 # Use specified path (export as instance with -i)
-typed-directory -i -d examples/animals/content -t examples/animals/Animal.ts -o examples/animals/output.ts
+typed-directory -i -d examples/animals -t examples/animals/Animal.ts -o examples/animals/output.ts
 
 # Print the full documentation for the command-line tool
 typed-directory --help
@@ -168,7 +168,7 @@ __Example:__ Type is `{new(): BaseClass}`, therefore `Something` is a class that
 ```typescript
 import BaseClass from "./BaseClass";
 
-import _Something from "./content/Something";
+import _Something from "./Something";
 
 // Casting as sub-class of BaseClass
 const Something:{new(): BaseClass} = _Something;
@@ -185,7 +185,7 @@ __Example:__ Type is `Animal`, therefore `cat` is an __instance__ of `Animal`
 ```typescript
 import Animal from "./Animal";
 
-import _cat from "./content/domestic/cat";
+import _cat from "./domestic/cat";
 
 // Casting as instance of Animal
 const cat:Animal = _cat;
