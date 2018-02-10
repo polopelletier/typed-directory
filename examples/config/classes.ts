@@ -1,8 +1,8 @@
 /* typed-directory ignore */
-import BaseClass from "./BaseClass";
+import BaseClass from "../classes/BaseClass";
 
-import _Something from "./Something";
-import _SomethingElse from "./SomethingElse";
+import _Something from "../classes/Something";
+import _SomethingElse from "../classes/SomethingElse";
 
 const Something:{new(): BaseClass} = _Something;
 const SomethingElse:{new(): BaseClass} = _SomethingElse;

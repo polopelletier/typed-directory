@@ -15,7 +15,7 @@ const ANIMAL_FILENAME = getOutputPath(ANIMAL_PATH);
 const CLASSES_PATH = getRootDir("classes");
 const CLASSES_FILENAME = getOutputPath(CLASSES_PATH);
 
-const NEW_FILENAME = path.resolve(ANIMAL_PATH, "content/zoo/elephant.ts");
+const NEW_FILENAME = path.resolve(ANIMAL_PATH, "zoo/elephant.ts");
 
 const CONFIG_FILENAME = path.resolve(__dirname, "config/typed-directory.config.js");
 
@@ -60,6 +60,14 @@ describe("watch", function() {
 		reset();
 	});
 
+	after(function(done){
+		// Need to make sure cleanup has been done when this suite is done
+		setTimeout(function(){
+			reset();
+			done();
+		}, 1500);
+	});
+
 	it("Is a function", function(){
 		assert.isFunction(watch);
 	});
@@ -73,10 +81,9 @@ describe("watch", function() {
 
 	it("Can run with unique entry (command line)", function(done){
 		const paths = getPaths("animals", "Animal.ts");
-		const content = paths.content;
 		const type = paths.type;
 		
-		watcher = watch(ANIMAL_FILENAME, type, content, true);
+		watcher = watch(ANIMAL_FILENAME, type, paths.rootDir, true);
 
 		compareFiles("animals");
 
@@ -128,6 +135,7 @@ const NEW_FILE_CONTENT = 	'import Animal from "../../Animal";' + '\n' +
 
 function checkWatch(done){
 	var complete = false;
+	var hasWatch = false;
 
 	function onComplete(message){
 		if(!complete){
@@ -142,37 +150,46 @@ function checkWatch(done){
 			interval: WATCH_DELAY
 		},
 		function(){
-			if(!complete){
-				var expectedLines = utils.loadExpected(ANIMAL_PATH).split("\n");
+			if(!complete && !hasWatch){
+				hasWatch = true;
 
-				// Trim header
-				expectedLines = expectedLines.slice(1);
+				setTimeout(function(){
+					var expectedLines = utils.loadExpected(ANIMAL_PATH).split("\n");
 
-				// Adding the 3 new lines
-				
-				/*eslint-disable */
-				expectedLines.splice(4, 0, 'import _zoo_elephant from "./content/zoo/elephant";');
-				expectedLines.splice(9, 0, 'const zoo_elephant:Animal = _zoo_elephant;');
-				expectedLines.splice(18, 0, '\t\t"elephant": zoo_elephant,');
-				/*eslint-enable */
+					// Trim header
+					expectedLines = expectedLines.slice(1);
 
-				const expected = expectedLines.join("\n");
+					// Adding the 3 new lines
+					
+					/*eslint-disable */
+					expectedLines.splice(4, 0, 'import _zoo_elephant from "./zoo/elephant";');
+					expectedLines.splice(9, 0, 'const zoo_elephant:Animal = _zoo_elephant;');
+					expectedLines.splice(18, 0, '\t\t"elephant": zoo_elephant,');
+					/*eslint-enable */
 
-				const provided = utils.trimHeader(utils.loadProvided(ANIMAL_PATH));
+					const expected = expectedLines.join("\n");
 
-				assert.equal(provided, expected);
+					const provided = utils.trimHeader(utils.loadProvided(ANIMAL_PATH));
 
-				onComplete();
+					assert.equal(provided, expected);
+
+					onComplete();
+				}, WATCH_DELAY);
+
 			}
 		});
 
 	// Wait a bit before making change (otherwise watch does not trigger)
 	setTimeout(function(){
-		fs.writeFileSync(NEW_FILENAME, NEW_FILE_CONTENT);
+		if(!complete){
+			fs.writeFileSync(NEW_FILENAME, NEW_FILE_CONTENT);			
+		}
 
 		// Give watch time to trigger before failing with timeout
 		setTimeout(function(){
-			onComplete("Timed out: watch callback has not been called in the expected delay");
+			if(!hasWatch){
+				onComplete("Timed out: watch callback has not been called in the expected delay");				
+			}
 		}, WATCH_DELAY * 2);
 
 	}, WATCH_DELAY);

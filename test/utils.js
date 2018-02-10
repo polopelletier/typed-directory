@@ -11,10 +11,9 @@ module.exports.getPaths = function(dir, type){
 	const rootDir = getRootDir(dir);
 	return {
 		rootDir: rootDir,
-		content: path.resolve(rootDir, "content"),
 		type: path.resolve(rootDir, type)
 	};
-}
+};
 
 
 function getOutputPath(dir){
@@ -58,4 +57,4 @@ module.exports.compareFiles = function(dir){
 	const expected = loadExpected(rootDir);
 
 	assertFileMatch(trimHeader(provided), expected);
-}
+};

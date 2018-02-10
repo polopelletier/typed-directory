@@ -197,6 +197,13 @@ export default {
 };
 ```
 
+## Ignoring files
+To ignore a file, add the following comment to the __`line 1`__ of the file:
+
+```javascript
+/* typed-directory ignore */
+```
+
 ## Tests
 The tests can be run by using the test command:
 ```bash

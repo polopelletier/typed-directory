@@ -4,6 +4,8 @@ const path = require("path");
 const Generator = require("./Generator");
 const scan = require("scan-dir-recursive/sync");
 
+const IGNORE_FILE_REGEXP = /\/\*\s?(typed-directory)\s?(ignore)\s?\*\//;
+
 module.exports = function(sourceDir, typeFile, outputFile, instance/* = false*/){
 	if(instance == undefined) instance = false;
 	
@@ -22,9 +24,25 @@ module.exports = function(sourceDir, typeFile, outputFile, instance/* = false*/)
 
 	scan(sourceDir, function(files){
 		files.forEach(function(filename){
+
+			if(path.extname(filename) != ".ts"){
+				// Not typescript, ignore it
+				return;
+			}
+
+			// Test for ignore header
+			const content = fs.readFileSync(filename).toString().split("\n");
+			if(IGNORE_FILE_REGEXP.test(content[0])){
+				// Ignore that file
+				return;
+			}
+
 			generator.addFile(filename);
 		});
-	});
+	}, [
+		typeFile,
+		outputFile
+	]);
 
 	return exportToFile(generator);
 };
