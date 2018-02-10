@@ -1,6 +1,6 @@
 {
   "name": "typed-directory",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Generate a Typescript file that loads all files contained in a directory hierarchically with a specified type",
   "main": "index.js",
   "engines": {
